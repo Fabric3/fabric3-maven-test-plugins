@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Fabric3
+ Copyright (c) 2009-2014 Metaform Systems
+
+ Fabric3 is licensed under modified terms of the GNU General
+ Public License. See the accompanying license file for details.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.codehaus.fabric3</groupId>
+        <artifactId>parent</artifactId>
+        <version>11</version>
+    </parent>
+    <artifactId>fabric3-maven-test-plugins</artifactId>
+    <version>2.5.0-SNAPSHOT</version>
+    <name>Fabric3 Maven Test Plugins</name>
+    <description>Fabric3 Test Plugins POM.</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>fabric3-maven-api</module>
+        <module>fabric3-maven-extension</module>
+        <module>fabric3-itest-plugin</module>
+    </modules>
+
+    <properties>
+        <fabric3.version>2.5.0-SNAPSHOT</fabric3.version>
+        <sca.api.version>1.1.4</sca.api.version>
+        <stax.api.version>1.0-2</stax.api.version>
+        <junit.version>4.11</junit.version>
+        <aetherVersion>0.9.0.M2</aetherVersion>
+        <servlet.groupId>org.eclipse.jetty.orbit</servlet.groupId>
+        <servlet.artifactId>javax.servlet</servlet.artifactId>
+        <servlet.version>3.0.0.v201112011016</servlet.version>
+        <woodstox.version>4.1.3</woodstox.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.1</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.fabric3</groupId>
+                <artifactId>fabric3-contribution-plugin</artifactId>
+                <extensions>true</extensions>
+                <version>2.0.0</version>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>bamboo</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <uniqueVersion>true</uniqueVersion>
+                    <id>fabric3-codehaus-ci</id>
+                    <name>Snapshot repository available from Codehaus' Bamboo server</name>
+                    <url>file:///opt/ci.repository.codehaus.org/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>sources</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>codehaus-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9</version>
+                        <configuration>
+                            <detectOfflineLinks>false</detectOfflineLinks>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-http</artifactId>
+                        <version>2.4</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>codehaus.org</id>
+            <name>Codehaus Central Repository</name>
+            <url>dav:https://dav.codehaus.org/repository/fabric3/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>codehaus.org</id>
+            <name>Codehaus Central Development Repository</name>
+            <url>dav:https://dav.codehaus.org/snapshots.repository/fabric3/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:Fabric3/fabric3-maven-test-plugins.git</connection>
+        <developerConnection>scm:git:git@github.com:Fabric3/fabric3-maven-test-plugins.git</developerConnection>
+        <url>http://github.com/Fabric3/fabric3-maven-test-plugins</url>
+        <tag>HEAD</tag>
+    </scm>
+
+</project>

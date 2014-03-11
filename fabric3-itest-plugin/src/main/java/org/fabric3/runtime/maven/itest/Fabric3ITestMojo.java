@@ -79,7 +79,6 @@ import org.fabric3.api.host.contribution.InstallException;
 import org.fabric3.api.host.contribution.StoreException;
 import org.fabric3.api.host.domain.DeploymentException;
 import org.fabric3.api.host.domain.Domain;
-import org.fabric3.api.host.runtime.HiddenPackages;
 import org.fabric3.api.host.runtime.InitializationException;
 import org.fabric3.api.host.util.FileHelper;
 import org.fabric3.plugin.Fabric3PluginException;
@@ -223,7 +222,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
      *
      * @parameter
      */
-    public String[] hiddenPackages = HiddenPackages.getPackages();
+    public String[] hiddenPackages = MavenHiddenPackages.getPackages();
 
     /**
      * @component

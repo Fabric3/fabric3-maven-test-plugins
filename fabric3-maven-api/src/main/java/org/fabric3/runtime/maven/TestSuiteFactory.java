@@ -49,6 +49,6 @@ public interface TestSuiteFactory {
      *
      * @return the test suite
      */
-    SurefireTestSuite createTestSuite();
+    SurefireTestSuite createTestSuite(boolean ignoreTestFailures);
 
 }

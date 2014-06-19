@@ -68,15 +68,17 @@ public class TestRunner {
     private File reportsDirectory;
     private Boolean trimStackTrace;
     private Log log;
+    private Boolean ignoreTestFailures;
 
-    public TestRunner(File reportsDirectory, boolean trimStackTrace, Log log) {
+    public TestRunner(File reportsDirectory, boolean trimStackTrace, Log log, boolean ignoreTestFailures) {
         this.reportsDirectory = reportsDirectory;
         this.trimStackTrace = trimStackTrace;
         this.log = log;
+        this.ignoreTestFailures = ignoreTestFailures;
     }
 
     public void executeTests(PluginRuntime runtime) throws MojoExecutionException, MojoFailureException {
-        SurefireTestSuite testSuite =  runtime.getComponent(TestSuiteFactory.class).createTestSuite();
+        SurefireTestSuite testSuite =  runtime.getComponent(TestSuiteFactory.class).createTestSuite(ignoreTestFailures);
         log.info("Executing tests...");
         boolean success = runTests(testSuite);
         if (!success) {

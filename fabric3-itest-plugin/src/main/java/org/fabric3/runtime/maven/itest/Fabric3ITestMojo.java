@@ -147,6 +147,13 @@ public class Fabric3ITestMojo extends AbstractMojo {
     public boolean skip;
 
     /**
+     * When set to true, this will ignore test failures.
+     *
+     * @parameter expression="${maven.test.ignoreTestFailures}"
+     */
+    public boolean ignoreTestFailures;
+
+    /**
      * The directory where reports will be written.
      *
      * @parameter expression="${project.build.directory}/surefire-reports"
@@ -269,7 +276,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
             if (!continueDeployment) {
                 return;
             }
-            TestRunner runner = new TestRunner(reportsDirectory, trimStackTrace, getLog());
+            TestRunner runner = new TestRunner(reportsDirectory, trimStackTrace, getLog(), ignoreTestFailures);
             runner.executeTests(runtime);
             tryLatch(runtime);
         } catch (RuntimeException e) {

@@ -56,10 +56,12 @@ import org.fabric3.spi.container.wire.Wire;
 public class SCATestSet implements SurefireTestSet {
     private final String name;
     private Wire wire;
+    private boolean ignoreTestFailures;
 
-    public SCATestSet(String name, Wire wire) {
+    public SCATestSet(String name, Wire wire, boolean ignoreTestFailures) {
         this.name = name;
         this.wire = wire;
+        this.ignoreTestFailures =  ignoreTestFailures;
     }
 
     public void execute(ReporterManager reporterManager, ClassLoader loader) throws TestSetFailedException {
@@ -76,12 +78,16 @@ public class SCATestSet implements SurefireTestSet {
                 }
 
                 reporterManager.testSucceeded(new ReportEntry(this, operationName, name));
-                message.reset();
-                workContext.reset();
             } catch (TestSetFailedException e) {
                 StackTraceWriter stw = new PojoStackTraceWriter(name, operationName, e.getCause());
                 reporterManager.testFailed(new ReportEntry(this, operationName, name, stw));
-                throw e;
+                if (!ignoreTestFailures) {
+                    throw e;
+                }
+            }
+            finally {
+                message.reset();
+                workContext.reset();
             }
         }
     }

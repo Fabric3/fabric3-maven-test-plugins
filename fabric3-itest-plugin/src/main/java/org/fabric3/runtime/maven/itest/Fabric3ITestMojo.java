@@ -107,7 +107,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
         }
     }
 
-    public static final String FABRIC3_GROUP_ID = "org.codehaus.fabric3";
+    public static final String FABRIC3_GROUP_ID = "org.fabric3";
 
     /**
      * POM

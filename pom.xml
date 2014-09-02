@@ -10,11 +10,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.codehaus.fabric3</groupId>
-        <artifactId>parent</artifactId>
-        <version>11</version>
-    </parent>
+    <groupId>org.fabric3</groupId>
     <artifactId>fabric3-maven-test-plugins</artifactId>
     <version>2.5.0-SNAPSHOT</version>
     <name>Fabric3 Maven Test Plugins</name>
@@ -59,34 +55,102 @@
 
     <build>
         <defaultGoal>install</defaultGoal>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.fabric3</groupId>
-                <artifactId>fabric3-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <version>2.0.0</version>
-            </plugin>
-        </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>2.4</version>
-            </extension>
-        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.14</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*TestCase.java</include>
+                        </includes>
+                        <reportFormat>brief</reportFormat>
+                        <useFile>false</useFile>
+                        <forkMode>once</forkMode>
+                        <argLine>-ea</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <quiet>true</quiet>
+                        <links>
+                            <link>http://download.oracle.com/javase/7/docs/api/</link>
+                        </links>
+                        <header>${project.name}</header>
+                        <bottom><![CDATA[Copyright &copy; {inceptionYear}-{currentYear} Metaform Systems.]]></bottom>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.4</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
         <profile>
-            <id>bamboo</id>
-            <distributionManagement>
-                <snapshotRepository>
-                    <uniqueVersion>true</uniqueVersion>
-                    <id>fabric3-codehaus-ci</id>
-                    <name>Snapshot repository available from Codehaus' Bamboo server</name>
-                    <url>file:///opt/ci.repository.codehaus.org/</url>
-                </snapshotRepository>
-            </distributionManagement>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>sources</id>
@@ -108,48 +172,19 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>codehaus-release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9</version>
-                        <configuration>
-                            <detectOfflineLinks>false</detectOfflineLinks>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-http</artifactId>
-                        <version>2.4</version>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
 
     </profiles>
 
     <distributionManagement>
         <repository>
-            <id>codehaus.org</id>
-            <name>Codehaus Central Repository</name>
-            <url>dav:https://dav.codehaus.org/repository/fabric3/</url>
+            <id>sonatype</id>
+            <name>Releases</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-
         <snapshotRepository>
-            <id>codehaus.org</id>
-            <name>Codehaus Central Development Repository</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/fabric3/</url>
+            <id>sonatype</id>
+            <name>Snapshot Releases</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 

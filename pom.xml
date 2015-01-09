@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.fabric3</groupId>
     <artifactId>fabric3-maven-test-plugins</artifactId>
-    <version>2.5.1-SNAPSHOT</version>
+    <version>2.5.2-SNAPSHOT</version>
     <name>Fabric3 Maven Test Plugins</name>
     <description>Fabric3 Test Plugins POM.</description>
     <packaging>pom</packaging>

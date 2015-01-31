@@ -45,6 +45,7 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
 import org.eclipse.aether.resolution.DependencyResolutionException;
+import org.fabric3.api.host.ContainerException;
 import org.fabric3.api.host.Names;
 import org.fabric3.api.host.classloader.MaskingClassLoader;
 import org.fabric3.api.host.contribution.ContributionNotFoundException;
@@ -53,9 +54,7 @@ import org.fabric3.api.host.contribution.ContributionSource;
 import org.fabric3.api.host.contribution.FileContributionSource;
 import org.fabric3.api.host.contribution.InstallException;
 import org.fabric3.api.host.contribution.StoreException;
-import org.fabric3.api.host.domain.DeploymentException;
 import org.fabric3.api.host.domain.Domain;
-import org.fabric3.api.host.runtime.InitializationException;
 import org.fabric3.api.host.util.FileHelper;
 import org.fabric3.plugin.Fabric3PluginException;
 import org.fabric3.plugin.api.runtime.PluginRuntime;
@@ -259,7 +258,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
             // log unexpected errors since Maven sometimes swallows them
             getLog().error(e);
             throw e;
-        } catch (Fabric3PluginException | InitializationException e) {
+        } catch (Fabric3PluginException | ContainerException e) {
             throw new MojoExecutionException(e.getMessage(), e);
         } finally {
             try {
@@ -314,7 +313,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
             List<URI> uris = contributionService.store(sources);
             contributionService.install(uris);
             domain.include(uris);
-        } catch (ArtifactResolutionException | InstallException | ContributionNotFoundException | DeploymentException | StoreException e) {
+        } catch (ArtifactResolutionException | ContainerException | InstallException | ContributionNotFoundException | StoreException e) {
             throw new MojoExecutionException("Error installing contributions", e);
         }
     }

@@ -322,7 +322,7 @@ public class Fabric3ITestMojo extends AbstractMojo {
         File f3TempDir = new File(System.getProperty("java.io.tmpdir"), ".f3");
         try {
             FileHelper.deleteDirectory(f3TempDir);
-        } catch (IOException e) {
+        } catch (Fabric3Exception e) {
             e.printStackTrace();
         }
     }

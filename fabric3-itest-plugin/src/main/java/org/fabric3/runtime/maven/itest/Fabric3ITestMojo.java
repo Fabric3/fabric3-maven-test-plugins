@@ -20,7 +20,6 @@
 package org.fabric3.runtime.maven.itest;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;

@@ -22,9 +22,6 @@
         <stax.api.version>1.0-2</stax.api.version>
         <junit.version>4.11</junit.version>
         <aetherVersion>0.9.0.M2</aetherVersion>
-        <servlet.groupId>org.eclipse.jetty.orbit</servlet.groupId>
-        <servlet.artifactId>javax.servlet</servlet.artifactId>
-        <servlet.version>3.0.0.v201112011016</servlet.version>
         <woodstox.version>4.1.3</woodstox.version>
     </properties>
 

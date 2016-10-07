@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.fabric3</groupId>
     <artifactId>fabric3-maven-test-plugins</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <name>Fabric3 Maven Test Plugins</name>
     <description>Fabric3 Test Plugins POM.</description>
     <packaging>pom</packaging>
@@ -181,7 +181,7 @@
         <connection>scm:git:git@github.com:Fabric3/fabric3-maven-test-plugins.git</connection>
         <developerConnection>scm:git:git@github.com:Fabric3/fabric3-maven-test-plugins.git</developerConnection>
         <url>http://github.com/Fabric3/fabric3-maven-test-plugins</url>
-        <tag>fabric3-maven-test-plugins-3.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <licenses>
         <license>

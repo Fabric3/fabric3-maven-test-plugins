@@ -39,6 +39,7 @@ public class MavenDestinationRouter implements DestinationRouter {
     }
 
     public void send(MonitorLevel level, int destinationIndex, long timestamp, String source, String message, boolean parse, Object... args) {
+
         message = MessageFormatter.format(message, args);
 
         if (MonitorLevel.SEVERE == level) {

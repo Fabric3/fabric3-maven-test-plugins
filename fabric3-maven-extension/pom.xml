@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.fabric3</groupId>
         <artifactId>fabric3-maven-test-plugins</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>fabric3-maven-extension</artifactId>
     <name>Fabric3 Maven Runtime Extension</name>
